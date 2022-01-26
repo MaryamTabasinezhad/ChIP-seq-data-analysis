@@ -14,21 +14,21 @@
 
 [4) Align trimmed fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#4-align-trimmed-fastq-files)
 
-5) QC BAM files
+[5) QC BAM files]()
 
-6) Filter BAM files
+[6) Filter BAM files]()
 
-7) Run ChIP-seq QC
+[7) Run ChIP-seq QC]()
 
-8) Generate BigWig files for visualization
+[8) Generate BigWig files for visualization]()
 
-9) Peak calling
+[9) Peak calling]()
 
-10) Peak QC
+[10) Peak QC]()
 
-11) Peak annotation
+[11) Peak annotation]()
 
-12) Differential peak binding analysis
+[12) Differential peak binding analysis]()
 
 Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
 move to appropriate folder before running scripts
@@ -146,7 +146,7 @@ find . -name '*fastq.gz' -exec mv -t '/new/destination/folder' {} +
 
 #--------------------------------------------------------------------------------
 
-#5) QC BAM files
+## 5) QC BAM files
 #use SAMSTAT for BAM QC
 #produce samstat statistics for all bam files
 for file in *.bam
@@ -158,7 +158,7 @@ done
 
 #--------------------------------------------------------------------------------
 
-#6) Filter BAM files
+## 6) Filter BAM files
 #SAMTOOLS 6nano for filtering
 
 #this is likely one of the most arbitrary step, prone to introducing genome wide bias
@@ -230,7 +230,7 @@ done
 
 #--------------------------------------------------------------------------------
 
-#7) Run ChIP-seq QC
+## 7) Run ChIP-seq QC
 #several metrics checked, fragment size, strand cross-correlation, BAM file correlation, BAM file PCA
 
 #use PHANTOMPEAKQUALTOOLS for strand cross-correlation analysis (not reliable for broad signals like H3K27me3)
@@ -267,7 +267,7 @@ ngs.plot.r -G hg19 -R tss -P 8 -C /path/to/config.txt -O output_file
 
 #--------------------------------------------------------------------------------
 
-#8) Generate BigWig files for visualization
+## 8) Generate BigWig files for visualization
 #DEEPTOOLS used for bigwig file generation
 
 #bigwig files can be opened with IGV
@@ -282,7 +282,7 @@ done
 
 #--------------------------------------------------------------------------------
 
-#9) Peak calling
+## 9) Peak calling
 #SICER used for peak calling, better for broad peaks
 #However, MACS2 is the most popular peak caller. MACS2 also tested but called peaks separate better when called using SICER (according to PCA plots)
 
@@ -311,11 +311,11 @@ done
 
 #--------------------------------------------------------------------------------
 
-#10) Peak QC
+## 10) Peak QC
 #ChIPQC and ChIPSeeker R packages used for peak metrics
 #--------------------------------------------------------------------------------
 
-#11) Peak annotation
+## 11) Peak annotation
 #HOMER used for gene annotation
 
 #run HOMER
@@ -328,7 +328,7 @@ done
 
 #--------------------------------------------------------------------------------
 
-#12) Differential peak binding analysis
+## 12) Differential peak binding analysis
 #SICER-df and Diffbind used for differential binding
 
 #SICER-df for H3K4me3
