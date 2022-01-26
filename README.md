@@ -6,7 +6,7 @@
 
 # Basic workflow
 
-1) QC fastq files
+1) [QC fastq files]()
 
 2) Trim fastq files
 
@@ -54,8 +54,8 @@ FASTQC used for quality metrics, Run in folder with all fastq.gz files.
 
 ##  2) Trim fastq files
 
-you can do with "SKEWER package" or "trimmomatic package" 
-
+  Use "Skewer" or "trimmomatic" to trim the adapter of these reads
+  
 ##  A. SKEWER used for trimming
 run in folder with fastq files, double check adapter sequences, single vs paired end sequencing, length of reads, and cores available:
 
@@ -88,23 +88,30 @@ run in folder with  all trimmed fastq files in fastq.gz format
      echo $file
      fastqc $file
     done
+  
+  
+> _Note:  For QC  more than one trimmed file, you can use:_
+      
    
-
+      module load fastqc
+      mkdir fastqc_after
+      fastqc -q -t 20 -o fastqc_after *.fastqgz
      
-#--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-#4) Align trimmed fastq files
-#STAR used for alignment
-#Gencode annotations used for genome index creation, but you can also use Refseq
-#use the trimmed files from step (2)
+## 4) Align trimmed fastq files
+STAR used for alignment, Gencode annotations used for genome index creation, but you can also use Refseq, use the trimmed files from step (2)
+`kvmd,c`
+first need to create genome indices
 
-#first need to create genome indices
-> STAR --runThreadN 10
+```ruby
+STAR --runThreadN 10
 --runMode genomeGenerate
 --genomeDir /path/to/genome/indices/output
 --genomeFastaFiles genome.fa
 --sjdbGTFfile path/to/annotation.gtf
 --sjdbOverhang 99
+```
 
 #make new directory for STAR output
 #create one folder for each pair of paired end reads
