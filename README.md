@@ -30,44 +30,48 @@
 
 12) Differential peak binding analysis
 
-#Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
-#move to appropriate folder before running scripts
+Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
+move to appropriate folder before running scripts
 
 #--------------------------------------------------------------------------------
 
 
 
-1) QC fastq files
+## 1) QC fastq files
 
-FASTQC used for quality metrics
+FASTQC used for quality metrics, Run in folder with all fastq.gz files. 
+   
+	 
+	 
+	 for file in "*fastq.gz"
+	 do
+	   echo $file
+	   fastqc $file
+	done
 
-Run in folder with all fastq.gz files
-
-for file in "*fastq.gz"
-
-do
-
-	echo $file
-  
-	fastqc $file
-  
-done
 
 #--------------------------------------------------------------------------------
 
-2) Trim fastq files, you can do with SKEWER package or trimmomatics package 
+##  2) Trim fastq files
 
-A. SKEWER used for trimming
+you can do with "SKEWER package" or "trimmomatic package" 
 
-Run in folder with fastq files
+##  A. SKEWER used for trimming
+run in folder with fastq files, double check adapter sequences, single vs paired end sequencing, length of reads, and cores available:
 
-double check adapter sequences, single vs paired end sequencing, length of reads, and cores available
+   
+	 
+	 skewer-0.2.2-linux-x86_64 -x AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -y AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -m pe -q 3 -l 100 -o output_folder -t R1.fastq.gz
+	 R2.fastq.gz   
 
-skewer-0.2.2-linux-x86_64 -x AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -y AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -m pe -q 3 -l 100 -o output_folder -t 8 R1.fastq.gz R2.fastq.gz
+ 
+ 
+B. trimmomatic
+   
+	 
+	 module load StdEnv/2020 trimmomatic/0.39 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE Patient43_week_5_S6_R1_001.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
 
-B. 
-
-
+_for timming more than one file, you can use the autotrim.sh file_
 
 #--------------------------------------------------------------------------------
 
