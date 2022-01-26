@@ -6,7 +6,7 @@
 
 # Basic workflow
 
-1) [QC fastq files]()
+1) [QC fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#1-qc-fastq-files)
 
 2) Trim fastq files
 
