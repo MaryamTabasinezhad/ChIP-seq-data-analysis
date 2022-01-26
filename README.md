@@ -14,21 +14,21 @@
 
 [4) Align trimmed fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#4-align-trimmed-fastq-files)
 
-[5) QC BAM files]()
+[5) QC BAM files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#5-qc-bam-files)
 
-[6) Filter BAM files]()
+[6) Filter BAM files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#6-filter-bam-files)
 
-[7) Run ChIP-seq QC]()
+[7) Run ChIP-seq QC](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#7-run-chip-seq-qc)
 
-[8) Generate BigWig files for visualization]()
+[8) Generate BigWig files for visualization](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#8-generate-bigwig-files-for-visualization)
 
-[9) Peak calling]()
+[9) Peak calling](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#9-peak-calling)
 
-[10) Peak QC]()
+[10) Peak QC](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#10-peak-qc)
 
-[11) Peak annotation]()
+[11) Peak annotation](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#11-peak-annotation)
 
-[12) Differential peak binding analysis]()
+[12) Differential peak binding analysis](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#12-differential-peak-binding-analysis)
 
 Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
 move to appropriate folder before running scripts
