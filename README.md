@@ -40,36 +40,29 @@ move to appropriate folder before running scripts
 ## 1) QC fastq files
 
 FASTQC used for quality metrics, Run in folder with all fastq.gz files. 
-   
-	 
-	 
-	 for file in "*fastq.gz"
-	 do
-	   echo $file
-	   fastqc $file
-	done
-
-
-#--------------------------------------------------------------------------------
-
+```ruby
+for file in "*fastq.gz"
+do
+ echo $file
+ fastqc $file
+done
+```
 ##  2) Trim fastq files
 
   Use "Skewer" or "trimmomatic" to trim the adapter of these reads
   
 ##  A. SKEWER used for trimming
 run in folder with fastq files, double check adapter sequences, single vs paired end sequencing, length of reads, and cores available:
-
-   
-	 
-	 skewer-0.2.2-linux-x86_64 -x AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -y AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -m pe -q 3 -l 100 -o output_folder -t R1.fastq.gz
-	 R2.fastq.gz   
+```ruby
+skewer-0.2.2-linux-x86_64 -x AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -y AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -m pe -q 3 -l 100 -o output_folder -t R1.fastq.gz R2.fastq.gz
+```
 
  
  
 B. trimmomatic
-   
-	 
-	 module load StdEnv/2020 trimmomatic/0.39 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE Patient43_week_5_S6_R1_001.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
+```ruby
+module load StdEnv/2020 trimmomatic/0.39 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE Patient43_week_5_S6_R1_001.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
+```
 
 > _Note: for timming more than one file, you can use the [autotrim.sh file](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/auto_trim.sh)_
 
@@ -79,26 +72,19 @@ B. trimmomatic
 FASTQC used for quality metrics
 
 run in folder with  all trimmed fastq files in fastq.gz format 
-    
-    
-    
-    
-    for file in "*fastq.gz"
-    do
-     echo $file
-     fastqc $file
-    done
-  
-  
-> _Note:  For QC  more than one trimmed file, you can use:_
-      
-   
-      module load fastqc
-      mkdir fastqc_after
-      fastqc -q -t 20 -o fastqc_after *.fastqgz
-     
---------------------------------------------------------------------------------
-
+```ruby
+for file in "*fastq.gz"
+do
+ echo $file
+ fastqc $file
+done
+```
+> _Note:  For QC  more than one trimmed file, you can use:
+```ruby
+module load fastqc
+mkdir fastqc_after
+fastqc -q -t 20 -o fastqc_after *.fastqgz
+```
 ## 4) Align trimmed fastq files
 STAR used for alignment, Gencode annotations used for genome index creation, but you can also use Refseq, use the trimmed files from step (2)
 `kvmd,c`
@@ -115,10 +101,12 @@ STAR --runThreadN 10
 
 #make new directory for STAR output
 #create one folder for each pair of paired end reads
+```ruby
 for file in *pair1.fastq
 do
 	mkdir /path/to/output/folders/"${file%pair1.fastq}"_Gencode
 done
+```
 
 #run STAR
 #10 threads, 70GB of AM limit, output file format BAM
