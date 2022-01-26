@@ -71,20 +71,26 @@ B. trimmomatic
 	 
 	 module load StdEnv/2020 trimmomatic/0.39 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE Patient43_week_5_S6_R1_001.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
 
-_for timming more than one file, you can use the autotrim.sh file_
+> _Note: for timming more than one file, you can use the autotrim.sh file_
 
-#--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-#3) QC trimmed files
-#FASTQC used for quality metrics
-#run in folder with  all trimmed fastq files in fastq.gz format
+## 3) QC trimmed files
+FASTQC used for quality metrics
 
-for file in "*fastq.gz"
-do
-	echo $file
-	fastqc $file
-done
+run in folder with  all trimmed fastq files in fastq.gz format 
+    
+    
+    
+    
+    for file in "*fastq.gz"
+    do
+     echo $file
+     fastqc $file
+    done
+   
 
+     
 #--------------------------------------------------------------------------------
 
 #4) Align trimmed fastq files
@@ -93,7 +99,7 @@ done
 #use the trimmed files from step (2)
 
 #first need to create genome indices
-STAR --runThreadN 10
+> STAR --runThreadN 10
 --runMode genomeGenerate
 --genomeDir /path/to/genome/indices/output
 --genomeFastaFiles genome.fa
