@@ -6,13 +6,13 @@
 
 # Basic workflow
 
-1) [QC fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#1-qc-fastq-files)
+[1) QC fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#1-qc-fastq-files)
 
-2) Trim fastq files
+[2) Trim fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#2-trim-fastq-files)
 
-3) QC trimmed fastq files
+[3) QC trimmed fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#3-qc-trimmed-files)
 
-4) Align trimmed fastq files
+[4) Align trimmed fastq files](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/README.md#4-align-trimmed-fastq-files)
 
 5) QC BAM files
 
