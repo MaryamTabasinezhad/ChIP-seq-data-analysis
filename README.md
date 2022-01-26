@@ -29,3 +29,26 @@
 11) Peak annotation
 
 12) Differential peak binding analysis
+
+#Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
+#move to appropriate folder before running scripts
+
+#--------------------------------------------------------------------------------
+
+1) QC fastq files
+
+FASTQC used for quality metrics
+
+Run in folder with all fastq.gz files
+
+for file in "*fastq.gz"
+
+do
+
+	echo $file
+  
+	fastqc $file
+  
+done
+
+#--------------------------------------------------------------------------------
