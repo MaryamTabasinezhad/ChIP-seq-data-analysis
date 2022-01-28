@@ -110,6 +110,7 @@ done
 
 #run STAR
 #10 threads, 70GB of AM limit, output file format BAM
+```ruby
 for file in *pair1.fastq
 do
 	#print names of input fastq read files
@@ -122,30 +123,33 @@ do
 		--outSAMtype BAM SortedByCoordinate
 		--limitBAMsortRAM 70000000000
 done
-
+```
 #gzip all unzipped fastq files to save space on disk
 #find all files that matches .fastq --> compress these files to maximum compression
 #move into folder with all fastq files
 #xargs -n 1 means one gzip process per file
 #gzip -9 means maximum compression
+```ruby
 find . -name '*.fastq' -print0 | xargs -0 -n 1 gzip -9
+```
 #move all fastq.gz files into new folder
+```ruby
 find . -name '*fastq.gz' -exec mv -t '/new/destination/folder' {} +
+```
 
 #--------------------------------------------------------------------------------
 
 ## 5) QC BAM files
 #use SAMSTAT for BAM QC
 #produce samstat statistics for all bam files
+```ruby
 for file in *.bam
 do
 	#run samstat on all bam files
 	echo $file
 	samstat $file
 done
-
-#--------------------------------------------------------------------------------
-
+```
 ## 6) Filter BAM files
 #SAMTOOLS 6nano for filtering
 
@@ -156,29 +160,31 @@ done
 #MAPQ cutoff of 3 --> "uniquely mapped reads cutoff, 50% error probability for reads with MAPQ=3"
 #filter bam files based on MAPQ values of 3
 #rename .bam files to filtered.bam
+```ruby
 for file in *.bam
 do
 	echo $file
 	samtools view -b -q 3 $file > "${file%.bam}.filtered.bam"
 done
+```
 
 #track the number of reads you're losing at each filtering step
 #to get total reads in each BAM file
+```ruby
 for file in *.bam
 do
 	echo $file
 	samtools view -c $file
 done
-
+```
 #remove reads aligning to mit and contigs
 #make sure the bam files in the folder are the filtered bam files from the earlier step
+```ruby
 for file in *filtered.bam
 do
 	echo $file
-
 	#list total number of reads in mapq.bam file
 	samtools view -c $file
-
 	#convert bam file to sam file
 	samtools view -h "${file%filtered.bam}.bam" > "${file%filtered.bam}.sam"
 
@@ -207,16 +213,15 @@ do
 	bedtools bamtobed -i "${file%filtered.bam}simple.bam" > "${file%filtered.bam}simple.bed"
 
 done
-
+```
 #use PICARDTOOLS to generat BAM index
 #run picard tools
+```ruby
 for file in *simple.bam
 do
 	picard-tools BuildBamIndex I=$file
 done
-
-
-#--------------------------------------------------------------------------------
+```
 
 ## 7) Run ChIP-seq QC
 #several metrics checked, fragment size, strand cross-correlation, BAM file correlation, BAM file PCA
@@ -224,14 +229,16 @@ done
 #use PHANTOMPEAKQUALTOOLS for strand cross-correlation analysis (not reliable for broad signals like H3K27me3)
 #run phantompeakqualtools
 #gives fragment size, NSC, RSC
+```ruby
 for file in *simple.bam
 do
 	echo $file
 	Rscript /path/to/phantompeakqualtools/run_spp.R -c=$file -savp -out="${file%simple.bam}"
 done
-
+```
 #use DEEPTOOLS for average binding profiles, plot heatmaps, multibamsummary, correlation matrix, coverage, pca, etc.
 #multibamsummary: create comrpessed summary of bam files for downstream correlation and PCA analysis
+```ruby
 multiBamSummary bins \
 --bamfiles /list/all/bam/files \
 -out output.npz \
@@ -240,6 +247,7 @@ multiBamSummary bins \
 -p 8 -v --extendReads 147
 
 #plot correlation
+
 plotCorrelation --corData output.npz --plotFile output.png --corMethod spearman --whatToPlot heatmap --outFileCorMatrix output_cormatrix
 
 plotCorrelation --corData output.npz --plotFile output.png --corMethod pearson --whatToPlot heatmap --outFileCorMatrix output_cormatrix
@@ -252,13 +260,12 @@ plotPCA --corData output.npz --plotFile output.png --outFileNameData output_PCA_
 ngs.plot.r -G hg19 -R tss -P 8 -C /path/to/config.txt -O output_file
 
 #also see step (10) for additional QC steps using CHIPQC R package (both for BAM files pre-peak calling and BED files post peak calling)
-
-#--------------------------------------------------------------------------------
-
+```
 ## 8) Generate BigWig files for visualization
 #DEEPTOOLS used for bigwig file generation
 
 #bigwig files can be opened with IGV
+```ruby
 for file in *.bam
 do
 	echo $file
@@ -266,10 +273,7 @@ do
 	-bl ~/path/to/wgEncodeDacMapabilityConsensusExcludable.bed -p 8 --extendReads 147
 
 done
-
-
-#--------------------------------------------------------------------------------
-
+```
 ## 9) Peak calling
 #SICER used for peak calling, better for broad peaks
 #However, MACS2 is the most popular peak caller. MACS2 also tested but called peaks separate better when called using SICER (according to PCA plots)
@@ -278,6 +282,7 @@ done
 #parameters used for NARROW (H3K4me3): SICER.sh . "ip file" "input file" "output directory" hg19 1 200 147 0.87 200 .01
 
 #run SICER on BED files -H3K4me3
+```ruby
 for file in *.bed
 do
 	echo $file
@@ -286,8 +291,9 @@ do
 	#run sicer
 	SICER.sh . $file "${file%.bed}INPUT.bed" /path/to/output/"${file%.bed}_sicer" hg19 2147483647 200 147 0.87 200 .01
 done
-
+```
 #run SICER on BED files -H3K27me3
+```ruby
 for file in *.bed
 do
 	echo $file
@@ -296,9 +302,7 @@ do
 	#run sicer
 	SICER.sh . $file "${file%.bed}INPUT.bed" /path/to/output/"${file%.bed}_sicer" hg19 2147483647 200 147 0.87 600 .01
 done
-
-#--------------------------------------------------------------------------------
-
+```
 ## 10) Peak QC
 #ChIPQC and ChIPSeeker R packages used for peak metrics
 #--------------------------------------------------------------------------------
@@ -308,20 +312,19 @@ done
 
 #run HOMER
 #for SICER PEAKS
+```ruby
 for file in *.bed
 do
 	echo $file
 	annotatePeaks.pl $file hg19 > "${file%.bed}annotated.txt" -annStats output_annstats.txt -go path/to/output/folder
 done
-
-#--------------------------------------------------------------------------------
-
+```
 ## 12) Differential peak binding analysis
 #SICER-df and Diffbind used for differential binding
-
+```ruby
 #SICER-df for H3K4me3
 SICER-df.sh condition1.bed condition1_input.bed condition2.bed condition2_input.bed 200 200 0.01 0.01
 
 #SICER-df for H3K27me3
 SICER-df.sh condition1.bed condition1_input.bed condition2.bed condition2_input.bed 200 600 0.01 0.01
-
+```
