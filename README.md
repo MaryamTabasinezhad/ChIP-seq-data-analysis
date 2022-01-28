@@ -33,10 +33,6 @@
 Before running any of the scripts, make sure the programs are properly installed and paths are set in your environment
 move to appropriate folder before running scripts
 
-#--------------------------------------------------------------------------------
-
-
-
 ## 1) QC fastq files
 
 FASTQC used for quality metrics, Run in folder with all fastq.gz files. 
@@ -57,16 +53,12 @@ run in folder with fastq files, double check adapter sequences, single vs paired
 skewer-0.2.2-linux-x86_64 -x AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -y AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -m pe -q 3 -l 100 -o output_folder -t R1.fastq.gz R2.fastq.gz
 ```
 
- 
- 
 B. trimmomatic
 ```ruby
 module load StdEnv/2020 trimmomatic/0.39 java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE Patient43_week_5_S6_R1_001.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
 ```
 
 > _Note: for timming more than one file, you can use the [autotrim.sh file](https://github.com/MaryamTabasinezhad/ChIP-seq-data-analysis/blob/main/auto_trim.sh)_
-
---------------------------------------------------------------------------------
 
 ## 3) QC trimmed files
 FASTQC used for quality metrics
@@ -107,7 +99,6 @@ do
 	mkdir /path/to/output/folders/"${file%pair1.fastq}"_Gencode
 done
 ```
-
 #run STAR
 #10 threads, 70GB of AM limit, output file format BAM
 ```ruby
@@ -129,6 +120,7 @@ done
 #move into folder with all fastq files
 #xargs -n 1 means one gzip process per file
 #gzip -9 means maximum compression
+
 ```ruby
 find . -name '*.fastq' -print0 | xargs -0 -n 1 gzip -9
 ```
@@ -136,8 +128,6 @@ find . -name '*.fastq' -print0 | xargs -0 -n 1 gzip -9
 ```ruby
 find . -name '*fastq.gz' -exec mv -t '/new/destination/folder' {} +
 ```
-
-#--------------------------------------------------------------------------------
 
 ## 5) QC BAM files
 #use SAMSTAT for BAM QC
@@ -216,6 +206,7 @@ done
 ```
 #use PICARDTOOLS to generat BAM index
 #run picard tools
+
 ```ruby
 for file in *simple.bam
 do
@@ -305,7 +296,6 @@ done
 ```
 ## 10) Peak QC
 #ChIPQC and ChIPSeeker R packages used for peak metrics
-#--------------------------------------------------------------------------------
 
 ## 11) Peak annotation
 #HOMER used for gene annotation
