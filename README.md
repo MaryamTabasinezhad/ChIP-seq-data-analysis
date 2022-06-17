@@ -1,6 +1,6 @@
 # ChIP-seq-data-analysis
 
-# Intrduction
+# Introduction
 
 # Datasets
 
